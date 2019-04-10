@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
+import { Header } from 'react-native-elements';
 import { BarCodeScanner, Permissions } from 'expo';
 
 export default class HomeScreen extends React.Component {
@@ -9,12 +10,19 @@ export default class HomeScreen extends React.Component {
     entre: false,
   };
 
+  static navigationOptions = {
+    title: 'Yodo App',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
+
   componentDidMount() {
     this._requestCameraPermission();
-  }
-
-  componentWillUnmount() {
-    console.log('hola:', this.state.entre )
   }
   
   _requestCameraPermission = async () => {
@@ -25,7 +33,6 @@ export default class HomeScreen extends React.Component {
   };
 
   _handleBarCodeRead = result => {
-    console.log('Entre:', this.state.entre )
     if (result.data === "YodoApp" && !this.state.entre) {
       this.state.entre = true
       this.props.navigation.push('Register')
@@ -35,7 +42,6 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         {this.state.hasCameraPermission === null
           ? <Text>Requesting for camera permission</Text>
           : this.state.hasCameraPermission === false
